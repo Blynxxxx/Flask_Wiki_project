@@ -8,16 +8,19 @@ app.secret_key = 'IT@JCUA0Zr98j/3yXa R~XHH!jmN]LWX/,?RT'
 
 @app.route('/')
 def home():
+    """Render the home page."""
     return render_template("home.html")
 
 
 @app.route('/about')
 def about():
+    """Render the about page"""
     return render_template("about.html")
 
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
+    """Do search to find a page."""
     if request.method == 'POST':
         session['search_term'] = request.form['search']
         return redirect(url_for('results'))
@@ -26,12 +29,14 @@ def search():
 
 @app.route('/results')
 def results():
+    """Render results.html"""
     search_term = session['search_term']
     page = get_page(search_term)
     return render_template("results.html", page=page)
 
 
 def get_page(search_term):
+    """Get page function."""
     try:
         page = wikipedia.page(search_term)
     except wikipedia.exceptions.PageError:
